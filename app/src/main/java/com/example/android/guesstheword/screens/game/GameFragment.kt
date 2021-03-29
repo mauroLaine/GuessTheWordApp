@@ -57,11 +57,15 @@ class GameFragment : Fragment() {
             gameViewModel.onSkip()
         }
         gameViewModel.score.observe(viewLifecycleOwner, Observer { newSore ->
-            binding.scoreText.text = gameViewModel.score.value.toString()
+            binding.scoreText.text = newSore.toString()
         })
-
-        gameViewModel.word.observe(viewLifecycleOwner, Observer {
-            binding.wordText.text = gameViewModel.word.value
+        gameViewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
+            binding.wordText.text = newWord
+        })
+        gameViewModel.isGameFinished.observe(viewLifecycleOwner, Observer { isCompleted ->
+            if (isCompleted) {
+                gameFinished()
+            }
         })
         return binding.root
 
@@ -73,5 +77,6 @@ class GameFragment : Fragment() {
     private fun gameFinished() {
         val action = GameFragmentDirections.actionGameToScore(gameViewModel.score.value ?: 0)
         findNavController(this).navigate(action)
+        gameViewModel.completedGame()
     }
 }
