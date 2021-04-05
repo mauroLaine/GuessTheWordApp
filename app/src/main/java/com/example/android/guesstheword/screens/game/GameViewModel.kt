@@ -35,12 +35,13 @@ class GameViewModel : ViewModel() {
 
     init {
         Timber.i("GameViewModel created!")
-        resetList()
-        nextWord()
         _score.value = 0
         _word.value = ""
         _time.value = 0
         _isGameFinished.value = false
+
+        resetList()
+        nextWord()
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onFinish() {
                 _time.value = DONE
